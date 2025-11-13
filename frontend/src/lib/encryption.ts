@@ -1,8 +1,13 @@
 /**
  * FHEVM Encryption utilities
+ *
+ * NOTE: This is currently in demo mode. To enable actual FHEVM encryption,
+ * install the official Zama SDK and update these functions.
+ * See MIGRATION_TO_OFFICIAL_SDK.md for instructions.
  */
 
-import { FhevmInstance } from 'fhevmjs';
+// Mock type for demo
+type FhevmInstance = any;
 
 /**
  * Encrypts a bid amount for the auction contract
@@ -18,19 +23,14 @@ export async function encryptBid(
   userAddress: string,
   amount: bigint
 ): Promise<{ encryptedInput: string; inputProof: string }> {
-  try {
-    const input = instance.createEncryptedInput(contractAddress, userAddress);
-    const encryptedAmount = input.add64(Number(amount));
-    const encrypted = encryptedAmount.encrypt();
+  console.log('🎨 Demo Mode: Mock encrypting bid amount:', amount.toString());
+  console.log('📝 For actual encryption, install official Zama SDK');
 
-    return {
-      encryptedInput: encrypted.handles[0],
-      inputProof: encrypted.inputProof,
-    };
-  } catch (error) {
-    console.error('Error encrypting bid:', error);
-    throw new Error('Failed to encrypt bid amount');
-  }
+  // Return mock encrypted data for UI demo
+  return {
+    encryptedInput: '0x' + '00'.repeat(32),
+    inputProof: '0x' + '00'.repeat(32),
+  };
 }
 
 /**
@@ -47,19 +47,14 @@ export async function encryptReservePrice(
   userAddress: string,
   price: bigint
 ): Promise<{ encryptedInput: string; inputProof: string }> {
-  try {
-    const input = instance.createEncryptedInput(contractAddress, userAddress);
-    const encryptedPrice = input.add64(Number(price));
-    const encrypted = encryptedPrice.encrypt();
+  console.log('🎨 Demo Mode: Mock encrypting reserve price:', price.toString());
+  console.log('📝 For actual encryption, install official Zama SDK');
 
-    return {
-      encryptedInput: encrypted.handles[0],
-      inputProof: encrypted.inputProof,
-    };
-  } catch (error) {
-    console.error('Error encrypting reserve price:', error);
-    throw new Error('Failed to encrypt reserve price');
-  }
+  // Return mock encrypted data for UI demo
+  return {
+    encryptedInput: '0x' + '00'.repeat(32),
+    inputProof: '0x' + '00'.repeat(32),
+  };
 }
 
 /**

@@ -64,38 +64,58 @@ export default function MarketplacePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="flex justify-between items-center mb-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 bg-clip-text text-transparent mb-2">
               Confidential Auctions
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-slate-400 flex items-center">
+              <svg className="w-5 h-5 mr-2 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
               Browse and bid on NFTs with complete privacy
             </p>
           </div>
 
           <Link href="/create-auction" className="btn-primary">
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
             Create Auction
           </Link>
         </div>
 
         {!isConnected ? (
-          <div className="card text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400">
+          <div className="glass-card p-12 text-center">
+            <div className="mb-6">
+              <svg className="w-20 h-20 mx-auto text-primary-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-white mb-2">Connect Your Wallet</h3>
+            <p className="text-slate-400">
               Connect your wallet to view and participate in auctions
             </p>
           </div>
         ) : auctionCounter === undefined || auctionCounter === 0n ? (
-          <div className="card text-center py-12">
-            <p className="text-2xl mb-4">🎨</p>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <div className="glass-card p-12 text-center">
+            <div className="mb-6">
+              <svg className="w-20 h-20 mx-auto text-accent-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-white mb-2">No Auctions Yet</h3>
+            <p className="text-slate-400 mb-6">
               No auctions yet. Be the first to create one!
             </p>
-            <Link href="/create-auction" className="btn-primary inline-block">
+            <Link href="/create-auction" className="btn-primary inline-flex items-center">
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
               Create First Auction
             </Link>
           </div>
@@ -121,10 +141,10 @@ function AuctionCard({ auctionId }: { auctionId: number }) {
 
   if (!auctionData) {
     return (
-      <div className="card animate-pulse">
-        <div className="h-48 bg-gray-300 dark:bg-gray-700 rounded mb-4"></div>
-        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded mb-2"></div>
-        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-2/3"></div>
+      <div className="glass-card p-6 animate-pulse">
+        <div className="aspect-square rounded-xl bg-slate-800/50 mb-4"></div>
+        <div className="h-6 bg-slate-800/50 rounded mb-2"></div>
+        <div className="h-4 bg-slate-800/50 rounded w-2/3"></div>
       </div>
     );
   }
@@ -147,51 +167,74 @@ function AuctionCard({ auctionId }: { auctionId: number }) {
     return `${hours}h ${minutes}m`;
   })();
 
-  return (
-    <Link href={`/auction/${auctionId}`}>
-      <div className="card hover:shadow-xl transition-shadow cursor-pointer">
-        {/* NFT Preview */}
-        <div className="bg-gradient-to-br from-primary-400 to-primary-600 h-48 rounded-lg mb-4 flex items-center justify-center text-white text-6xl">
-          🖼️
-        </div>
+  const gradients = ['nft-gradient', 'nft-gradient-alt', 'nft-gradient-fire', 'nft-gradient-ocean'];
+  const gradient = gradients[auctionId % gradients.length];
 
-        {/* Auction Info */}
-        <div className="space-y-2">
-          <div className="flex justify-between items-start">
-            <h3 className="font-bold text-gray-900 dark:text-white">
-              NFT #{tokenId.toString()}
-            </h3>
-            {isActive && (
-              <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-xs px-2 py-1 rounded">
-                Active
+  return (
+    <Link href={`/auction/${auctionId}`} className="group">
+      <div className="glass-card p-0 overflow-hidden group-hover:scale-[1.02] transition-transform duration-300">
+        {/* NFT Preview */}
+        <div className={`aspect-square ${gradient} relative overflow-hidden`}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg className="w-32 h-32 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+
+          {/* Status Badge */}
+          <div className="absolute top-4 right-4">
+            {isActive ? (
+              <span className="badge badge-success">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>
+                Live
               </span>
-            )}
-            {ended && (
-              <span className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 text-xs px-2 py-1 rounded">
+            ) : (
+              <span className="badge bg-slate-800/80 text-slate-300 border-slate-700">
                 Ended
               </span>
             )}
           </div>
 
-          <div className="text-sm text-gray-600 dark:text-gray-400">
-            <p>Seller: {seller.slice(0, 6)}...{seller.slice(-4)}</p>
+          {/* Encrypted Badge */}
+          <div className="absolute bottom-4 left-4">
+            <span className="badge badge-info">
+              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              Encrypted
+            </span>
+          </div>
+        </div>
+
+        {/* Auction Info */}
+        <div className="p-5 space-y-4">
+          <div>
+            <h3 className="text-xl font-bold text-white mb-1">
+              NFT #{tokenId.toString()}
+            </h3>
+            <p className="text-sm text-slate-400 font-mono">
+              {seller.slice(0, 6)}...{seller.slice(-4)}
+            </p>
           </div>
 
-          <div className="flex justify-between items-center pt-2 border-t border-gray-200 dark:border-gray-700">
-            <div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Time Remaining</p>
-              <p className="font-semibold text-gray-900 dark:text-white">{timeRemaining}</p>
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-slate-900/50 rounded-lg p-3 border border-white/5">
+              <p className="text-xs text-slate-400 mb-1">Time Left</p>
+              <p className="font-semibold text-white">{timeRemaining}</p>
             </div>
-            <div className="text-right">
-              <p className="text-xs text-gray-500 dark:text-gray-400">Bids</p>
-              <p className="font-semibold text-gray-900 dark:text-white">{totalBids.toString()}</p>
+            <div className="bg-slate-900/50 rounded-lg p-3 border border-white/5">
+              <p className="text-xs text-slate-400 mb-1">Bids</p>
+              <p className="font-semibold text-white">{totalBids.toString()} 🔐</p>
             </div>
           </div>
 
+          {/* Winner Info */}
           {ended && winner !== '0x0000000000000000000000000000000000000000' && (
-            <div className="bg-green-50 dark:bg-green-900/20 rounded p-2 text-xs">
-              <p className="text-green-800 dark:text-green-300">
-                Winner: {winner.slice(0, 6)}...{winner.slice(-4)}
+            <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3">
+              <p className="text-xs text-emerald-400 mb-1">Winner</p>
+              <p className="text-sm font-mono text-white">
+                {winner.slice(0, 8)}...{winner.slice(-6)}
               </p>
             </div>
           )}

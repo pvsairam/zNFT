@@ -78,35 +78,51 @@ export default function CreateAuctionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen">
       <Navbar />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="card">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Create Confidential Auction
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">
-            List your NFT in a private auction with encrypted reserve price
-          </p>
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="glass-card p-8">
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 bg-clip-text text-transparent mb-3">
+              Create Confidential Auction
+            </h1>
+            <p className="text-slate-400 text-lg flex items-center">
+              <svg className="w-5 h-5 mr-2 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              List your NFT in a private auction with encrypted reserve price
+            </p>
+          </div>
 
           {!isConnected ? (
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
-              <p className="text-yellow-800 dark:text-yellow-300">
-                Please connect your wallet to create auctions
-              </p>
+            <div className="glass-card p-6 border-amber-500/30 bg-amber-500/10">
+              <div className="flex items-center space-x-3">
+                <svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <p className="text-amber-300">
+                  Please connect your wallet to create auctions
+                </p>
+              </div>
             </div>
           ) : !isInitialized ? (
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
-              <p className="text-yellow-800 dark:text-yellow-300">
-                Initializing FHEVM... Please wait.
-              </p>
+            <div className="glass-card p-6 border-cyan-500/30 bg-cyan-500/10">
+              <div className="flex items-center space-x-3">
+                <svg className="w-6 h-6 text-cyan-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p className="text-cyan-300">
+                  Initializing FHEVM... Please wait.
+                </p>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleCreateAuction} className="space-y-6">
               {/* NFT Contract */}
               <div>
-                <label htmlFor="nftContract" className="label">
+                <label htmlFor="nftContract" className="block text-sm font-semibold text-slate-300 mb-2">
                   NFT Contract Address *
                 </label>
                 <input
@@ -114,17 +130,17 @@ export default function CreateAuctionPage() {
                   id="nftContract"
                   value={nftContract}
                   onChange={(e) => setNftContract(e.target.value)}
-                  className="input-field"
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-all font-mono text-sm"
                   required
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-sm text-slate-500 mt-2">
                   Address of the NFT contract (defaults to marketplace NFT)
                 </p>
               </div>
 
               {/* Token ID */}
               <div>
-                <label htmlFor="tokenId" className="label">
+                <label htmlFor="tokenId" className="block text-sm font-semibold text-slate-300 mb-2">
                   Token ID *
                 </label>
                 <input
@@ -133,19 +149,22 @@ export default function CreateAuctionPage() {
                   value={tokenId}
                   onChange={(e) => setTokenId(e.target.value)}
                   placeholder="0"
-                  className="input-field"
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-all"
                   required
                   min="0"
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-sm text-slate-500 mt-2">
                   The ID of the NFT you want to auction (you must own this NFT)
                 </p>
               </div>
 
               {/* Reserve Price */}
               <div>
-                <label htmlFor="reservePrice" className="label">
-                  Reserve Price (ETH) * 🔒
+                <label htmlFor="reservePrice" className="block text-sm font-semibold text-slate-300 mb-2 flex items-center">
+                  Reserve Price (ETH) *
+                  <svg className="w-4 h-4 ml-2 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
                 </label>
                 <input
                   type="number"
@@ -154,26 +173,28 @@ export default function CreateAuctionPage() {
                   onChange={(e) => setReservePrice(e.target.value)}
                   placeholder="0.1"
                   step="0.001"
-                  className="input-field"
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-accent-500/30 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500/50 transition-all"
                   required
                   min="0"
                 />
-                <p className="text-sm text-green-600 dark:text-green-400 mt-1 flex items-center">
-                  <span className="mr-1">🔒</span>
+                <p className="text-sm text-accent-400 mt-2 flex items-center">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
                   This value will be encrypted - bidders won't see it
                 </p>
               </div>
 
               {/* Duration */}
               <div>
-                <label htmlFor="duration" className="label">
+                <label htmlFor="duration" className="block text-sm font-semibold text-slate-300 mb-2">
                   Auction Duration *
                 </label>
                 <select
                   id="duration"
                   value={duration}
                   onChange={(e) => setDuration(e.target.value)}
-                  className="input-field"
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-all"
                   required
                 >
                   <option value="3600">1 Hour</option>
@@ -184,17 +205,20 @@ export default function CreateAuctionPage() {
                   <option value="259200">3 Days</option>
                   <option value="604800">7 Days</option>
                 </select>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-sm text-slate-500 mt-2">
                   How long the auction will run
                 </p>
               </div>
 
               {/* Important Notes */}
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                <p className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2">
-                  ⚠️ Important:
+              <div className="glass-card p-5 border-amber-500/30 bg-amber-500/5">
+                <p className="text-sm font-semibold text-amber-300 mb-3 flex items-center">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  Important:
                 </p>
-                <ul className="text-sm text-blue-800 dark:text-blue-400 space-y-1">
+                <ul className="text-sm text-amber-200 space-y-2">
                   <li>• You must approve the auction contract to transfer your NFT first</li>
                   <li>• The NFT will be locked in the auction contract during the auction</li>
                   <li>• Reserve price is encrypted - only revealed if not met at auction end</li>
@@ -213,15 +237,22 @@ export default function CreateAuctionPage() {
 
               {/* Success Message */}
               {isSuccess && (
-                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                  <p className="text-green-800 dark:text-green-300 font-semibold">
-                    ✅ Auction created successfully!
-                  </p>
-                  {hash && (
-                    <p className="text-sm text-green-700 dark:text-green-400 mt-1">
-                      Transaction: {hash.slice(0, 10)}...{hash.slice(-8)}
-                    </p>
-                  )}
+                <div className="glass-card p-5 border-emerald-500/30 bg-emerald-500/10">
+                  <div className="flex items-start space-x-3">
+                    <svg className="w-6 h-6 text-emerald-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div className="flex-1">
+                      <p className="text-emerald-300 font-semibold mb-1">
+                        Auction created successfully!
+                      </p>
+                      {hash && (
+                        <p className="text-sm text-emerald-400/80 font-mono">
+                          Transaction: {hash.slice(0, 10)}...{hash.slice(-8)}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
               )}
             </form>

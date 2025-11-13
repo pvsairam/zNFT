@@ -39,26 +39,37 @@ export default function MyNFTsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="flex justify-between items-center mb-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">My NFTs</h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 bg-clip-text text-transparent mb-2">
+              My NFTs
+            </h1>
+            <p className="text-slate-400">
               NFTs you own that can be listed in confidential auctions
             </p>
           </div>
 
           <Link href="/mint" className="btn-primary">
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
             Mint New NFT
           </Link>
         </div>
 
         {!isConnected ? (
-          <div className="card text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400">
+          <div className="glass-card p-12 text-center">
+            <div className="mb-6">
+              <svg className="w-20 h-20 mx-auto text-primary-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-white mb-2">Connect Your Wallet</h3>
+            <p className="text-slate-400">
               Connect your wallet to view your NFTs
             </p>
           </div>
@@ -66,34 +77,49 @@ export default function MyNFTsPage() {
           <>
             {/* Stats */}
             <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="card">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Owned NFTs</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">
-                  {myTokens.length}
-                </p>
+              <div className="glass-card p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-3xl">🎨</span>
+                  <span className="text-3xl font-bold text-white">{myTokens.length}</span>
+                </div>
+                <p className="text-sm text-slate-400">Owned NFTs</p>
               </div>
 
-              <div className="card">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Supply</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">
-                  {totalSupply?.toString() || '0'}
-                </p>
+              <div className="glass-card p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-3xl">📊</span>
+                  <span className="text-3xl font-bold text-white">
+                    {totalSupply?.toString() || '0'}
+                  </span>
+                </div>
+                <p className="text-sm text-slate-400">Total Supply</p>
               </div>
 
-              <div className="card">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">In Auctions</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">0</p>
+              <div className="glass-card p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-3xl">⚡</span>
+                  <span className="text-3xl font-bold text-white">0</span>
+                </div>
+                <p className="text-sm text-slate-400">In Auctions</p>
               </div>
             </div>
 
             {/* NFT Grid */}
             {totalSupply === undefined || totalSupply === 0n ? (
-              <div className="card text-center py-12">
-                <p className="text-2xl mb-4">🎨</p>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
+              <div className="glass-card p-12 text-center">
+                <div className="mb-6">
+                  <svg className="w-20 h-20 mx-auto text-accent-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">No NFTs Yet</h3>
+                <p className="text-slate-400 mb-6">
                   No NFTs in this collection yet. Mint your first NFT!
                 </p>
-                <Link href="/mint" className="btn-primary inline-block">
+                <Link href="/mint" className="btn-primary inline-flex items-center">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
                   Mint NFT
                 </Link>
               </div>
@@ -140,36 +166,46 @@ function NFTCard({ tokenId }: { tokenId: number }) {
   // Only show if we own it
   if (!isOwner) return null;
 
-  return (
-    <div className="card">
-      {/* NFT Preview */}
-      <div className="bg-gradient-to-br from-primary-400 to-primary-600 aspect-square rounded-lg mb-4 flex items-center justify-center text-white text-6xl">
-        🖼️
-      </div>
+  const gradients = ['nft-gradient', 'nft-gradient-alt', 'nft-gradient-fire', 'nft-gradient-ocean'];
+  const gradient = gradients[tokenId % gradients.length];
 
-      {/* NFT Info */}
-      <div className="space-y-2">
-        <div className="flex justify-between items-start">
-          <h3 className="font-bold text-gray-900 dark:text-white">NFT #{tokenId}</h3>
+  return (
+    <div className="glass-card p-0 overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+      {/* NFT Preview */}
+      <div className={`aspect-square ${gradient} relative overflow-hidden`}>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <svg className="w-32 h-32 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+
+        {/* Status Badge */}
+        <div className="absolute top-4 right-4">
           {isInAuction ? (
-            <span className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-300 text-xs px-2 py-1 rounded">
+            <span className="badge bg-amber-500/20 text-amber-300 border-amber-500/30">
               In Auction
             </span>
           ) : (
-            <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-xs px-2 py-1 rounded">
+            <span className="badge badge-success">
               Available
             </span>
           )}
         </div>
+      </div>
 
-        {tokenURI && (
-          <p className="text-xs text-gray-600 dark:text-gray-400 truncate">
-            {typeof tokenURI === 'string' ? tokenURI : 'Metadata available'}
-          </p>
-        )}
+      {/* NFT Info */}
+      <div className="p-5 space-y-3">
+        <div>
+          <h3 className="text-xl font-bold text-white mb-1">NFT #{tokenId}</h3>
+          {tokenURI && (
+            <p className="text-xs text-slate-500 truncate font-mono">
+              {typeof tokenURI === 'string' ? tokenURI.slice(0, 40) + '...' : 'Metadata available'}
+            </p>
+          )}
+        </div>
 
         {/* Actions */}
-        <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
+        <div className="pt-3 border-t border-white/10">
           {!isInAuction ? (
             <Link
               href={`/create-auction?tokenId=${tokenId}`}
@@ -180,7 +216,7 @@ function NFTCard({ tokenId }: { tokenId: number }) {
           ) : (
             <button
               disabled
-              className="bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 w-full py-2 rounded-lg text-sm cursor-not-allowed"
+              className="w-full py-2 px-4 rounded-lg text-sm bg-slate-800/50 text-slate-500 border border-white/5 cursor-not-allowed"
             >
               Currently in Auction
             </button>

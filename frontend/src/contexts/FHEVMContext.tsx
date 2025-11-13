@@ -1,8 +1,10 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { createInstance, FhevmInstance } from 'fhevmjs';
-import { useAccount, usePublicClient } from 'wagmi';
+import { useAccount } from 'wagmi';
+
+// Mock FHEVM instance type for UI demo (until official library is installed)
+type FhevmInstance = any;
 
 interface FHEVMContextType {
   instance: FhevmInstance | null;
@@ -22,36 +24,30 @@ export function FHEVMProvider({ children }: { children: React.ReactNode }) {
   const [instance, setInstance] = useState<FhevmInstance | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { address, isConnected } = useAccount();
-  const publicClient = usePublicClient();
+  const { isConnected } = useAccount();
 
   const initInstance = async () => {
-    if (!isConnected || !publicClient) {
+    if (!isConnected) {
       setError('Wallet not connected');
       return;
     }
 
     try {
       setError(null);
-      console.log('Initializing FHEVM instance...');
+      console.log('🎨 UI Demo Mode: FHEVM library not installed');
+      console.log('📝 To enable full FHEVM features, install official Zama SDK');
+      console.log('📖 See MIGRATION_TO_OFFICIAL_SDK.md for instructions');
 
-      const chainId = await publicClient.getChainId();
-      const networkUrl = publicClient.chain?.rpcUrls.default.http[0] || '';
-      const gatewayUrl = process.env.NEXT_PUBLIC_GATEWAY_URL || 'https://gateway.zama.ai';
+      // Simulate initialization for UI demo
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const fhevmInstance = await createInstance({
-        chainId,
-        networkUrl,
-        gatewayUrl,
-      });
-
-      setInstance(fhevmInstance);
+      setInstance({ mock: true }); // Mock instance for UI demo
       setIsInitialized(true);
-      console.log('✅ FHEVM instance initialized');
+      console.log('✅ UI Demo Mode active - interface ready');
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to initialize FHEVM';
+      const errorMessage = err instanceof Error ? err.message : 'Failed to initialize';
       setError(errorMessage);
-      console.error('Failed to initialize FHEVM:', err);
+      console.error('Error:', err);
     }
   };
 

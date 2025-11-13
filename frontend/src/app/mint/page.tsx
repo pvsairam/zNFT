@@ -49,29 +49,36 @@ export default function MintPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen">
       <Navbar />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="card">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Mint Your NFT
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">
-            Create a new NFT that can be listed in confidential auctions
-          </p>
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="glass-card p-8">
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 bg-clip-text text-transparent mb-3">
+              Mint Your NFT
+            </h1>
+            <p className="text-slate-400 text-lg">
+              Create a new NFT that can be listed in confidential auctions
+            </p>
+          </div>
 
           {!isConnected ? (
-            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
-              <p className="text-yellow-800 dark:text-yellow-300">
-                Please connect your wallet to mint NFTs
-              </p>
+            <div className="glass-card p-6 border-amber-500/30 bg-amber-500/10">
+              <div className="flex items-center space-x-3">
+                <svg className="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <p className="text-amber-300">
+                  Please connect your wallet to mint NFTs
+                </p>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleMint} className="space-y-6">
               {/* Token URI */}
               <div>
-                <label htmlFor="tokenURI" className="label">
+                <label htmlFor="tokenURI" className="block text-sm font-semibold text-slate-300 mb-2">
                   Token URI *
                 </label>
                 <input
@@ -80,17 +87,17 @@ export default function MintPage() {
                   value={tokenURI}
                   onChange={(e) => setTokenURI(e.target.value)}
                   placeholder="ipfs://QmExample... or https://..."
-                  className="input-field"
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-all"
                   required
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-sm text-slate-500 mt-2">
                   IPFS hash or URL pointing to your NFT metadata (JSON file)
                 </p>
               </div>
 
               {/* Recipient Address */}
               <div>
-                <label htmlFor="recipient" className="label">
+                <label htmlFor="recipient" className="block text-sm font-semibold text-slate-300 mb-2">
                   Recipient Address (optional)
                 </label>
                 <input
@@ -99,19 +106,22 @@ export default function MintPage() {
                   value={recipient}
                   onChange={(e) => setRecipient(e.target.value)}
                   placeholder={address || '0x...'}
-                  className="input-field"
+                  className="w-full px-4 py-3 bg-slate-900/50 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-all font-mono text-sm"
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-sm text-slate-500 mt-2">
                   Leave empty to mint to your address
                 </p>
               </div>
 
               {/* Metadata Example */}
-              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                <p className="text-sm font-semibold text-blue-900 dark:text-blue-300 mb-2">
-                  📝 NFT Metadata Format (JSON):
+              <div className="glass-card p-5 border-cyan-500/30 bg-cyan-500/5">
+                <p className="text-sm font-semibold text-cyan-300 mb-3 flex items-center">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  NFT Metadata Format (JSON):
                 </p>
-                <pre className="text-xs text-blue-800 dark:text-blue-400 overflow-x-auto">
+                <pre className="text-xs text-cyan-200 overflow-x-auto bg-slate-950/50 p-3 rounded-lg">
                   {JSON.stringify(
                     {
                       name: 'My Confidential NFT',
@@ -139,41 +149,51 @@ export default function MintPage() {
 
               {/* Success Message */}
               {isSuccess && (
-                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                  <p className="text-green-800 dark:text-green-300 font-semibold">
-                    ✅ NFT minted successfully!
-                  </p>
-                  {hash && (
-                    <p className="text-sm text-green-700 dark:text-green-400 mt-1">
-                      Transaction: {hash.slice(0, 10)}...{hash.slice(-8)}
-                    </p>
-                  )}
+                <div className="glass-card p-5 border-emerald-500/30 bg-emerald-500/10">
+                  <div className="flex items-start space-x-3">
+                    <svg className="w-6 h-6 text-emerald-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div className="flex-1">
+                      <p className="text-emerald-300 font-semibold mb-1">
+                        NFT minted successfully!
+                      </p>
+                      {hash && (
+                        <p className="text-sm text-emerald-400/80 font-mono">
+                          Transaction: {hash.slice(0, 10)}...{hash.slice(-8)}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
               )}
             </form>
           )}
 
           {/* Info Section */}
-          <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+          <div className="mt-8 pt-8 border-t border-white/10">
+            <h3 className="font-semibold text-white mb-4 flex items-center">
+              <svg className="w-5 h-5 mr-2 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
               Next Steps:
             </h3>
-            <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+            <ul className="space-y-3 text-sm text-slate-400">
               <li className="flex items-start">
-                <span className="text-primary-600 mr-2">1.</span>
-                Upload your NFT image and metadata to IPFS or a hosting service
+                <span className="text-primary-400 font-bold mr-3 mt-0.5">1.</span>
+                <span>Upload your NFT image and metadata to IPFS or a hosting service</span>
               </li>
               <li className="flex items-start">
-                <span className="text-primary-600 mr-2">2.</span>
-                Use the IPFS hash or URL as the Token URI when minting
+                <span className="text-primary-400 font-bold mr-3 mt-0.5">2.</span>
+                <span>Use the IPFS hash or URL as the Token URI when minting</span>
               </li>
               <li className="flex items-start">
-                <span className="text-primary-600 mr-2">3.</span>
-                After minting, you can create a confidential auction for your NFT
+                <span className="text-primary-400 font-bold mr-3 mt-0.5">3.</span>
+                <span>After minting, you can create a confidential auction for your NFT</span>
               </li>
               <li className="flex items-start">
-                <span className="text-primary-600 mr-2">4.</span>
-                View your NFTs in the "My NFTs" section
+                <span className="text-primary-400 font-bold mr-3 mt-0.5">4.</span>
+                <span>View your NFTs in the "My NFTs" section</span>
               </li>
             </ul>
           </div>
