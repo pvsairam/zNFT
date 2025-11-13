@@ -1,0 +1,29 @@
+{
+  "name": "znft-confidential-marketplace",
+  "version": "1.0.0",
+  "description": "Confidential NFT Marketplace using Zama's FHEVM",
+  "private": true,
+  "workspaces": [
+    "contracts",
+    "frontend"
+  ],
+  "scripts": {
+    "setup": "npm install && cd contracts && npm install && cd ../frontend && npm install",
+    "compile": "cd contracts && npm run compile",
+    "test": "cd contracts && npm run test",
+    "deploy": "cd contracts && npm run deploy",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build:frontend": "cd frontend && npm run build"
+  },
+  "keywords": [
+    "zama",
+    "fhevm",
+    "nft",
+    "marketplace",
+    "confidential",
+    "encryption",
+    "auction"
+  ],
+  "author": "",
+  "license": "MIT"
+}
