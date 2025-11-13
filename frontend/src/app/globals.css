@@ -2,28 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  body {
+    @apply bg-slate-950 text-slate-100;
+    background: linear-gradient(to bottom, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    min-height: 100vh;
+  }
+
+  * {
+    @apply border-slate-800;
+  }
 }
 
 @layer utilities {
@@ -32,23 +25,164 @@ body {
   }
 }
 
-/* Custom styles */
+/* Modern Glassmorphism Card */
+.glass-card {
+  @apply backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl;
+  box-shadow: 0 8px 32px 0 rgba(168, 85, 247, 0.1);
+}
+
+.glass-card:hover {
+  @apply bg-white/10 border-white/20;
+  box-shadow: 0 12px 48px 0 rgba(168, 85, 247, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Premium Buttons */
 .btn-primary {
-  @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+  @apply relative overflow-hidden bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 hover:to-accent-500;
+  @apply text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-primary-500/50;
+  @apply transition-all duration-300 transform hover:scale-105;
+  @apply border border-primary-400/30;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
 }
 
 .btn-secondary {
-  @apply bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+  @apply bg-slate-800/50 hover:bg-slate-700/50 text-slate-100 font-semibold;
+  @apply py-3 px-6 rounded-xl border border-slate-700 hover:border-slate-600;
+  @apply transition-all duration-300 backdrop-blur-sm;
 }
 
+.btn-ghost {
+  @apply bg-transparent hover:bg-white/5 text-slate-300 hover:text-white font-medium;
+  @apply py-2 px-4 rounded-lg border border-transparent hover:border-white/10;
+  @apply transition-all duration-200;
+}
+
+/* Modern Card */
 .card {
-  @apply bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700;
+  @apply glass-card p-6;
 }
 
+/* Elegant Input Fields */
 .input-field {
-  @apply w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white;
+  @apply w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-700;
+  @apply text-slate-100 placeholder:text-slate-500;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500;
+  @apply transition-all duration-200 backdrop-blur-sm;
 }
 
+.input-field:focus {
+  @apply bg-slate-900/70 shadow-lg shadow-primary-500/10;
+}
+
+/* Label Styling */
 .label {
-  @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2;
+  @apply block text-sm font-semibold text-slate-300 mb-2;
+  letter-spacing: 0.025em;
+}
+
+/* Status Badge */
+.badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+  @apply backdrop-blur-sm border;
+}
+
+.badge-success {
+  @apply bg-emerald-500/10 text-emerald-400 border-emerald-500/30;
+}
+
+.badge-warning {
+  @apply bg-amber-500/10 text-amber-400 border-amber-500/30;
+}
+
+.badge-error {
+  @apply bg-red-500/10 text-red-400 border-red-500/30;
+}
+
+.badge-info {
+  @apply bg-cyan-500/10 text-cyan-400 border-cyan-500/30;
+}
+
+/* NFT Card Gradient */
+.nft-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+.nft-gradient-alt {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.nft-gradient-fire {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.nft-gradient-ocean {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* Smooth Animations */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(168, 85, 247, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 1000px 100%;
+}
+
+/* Scroll Bar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-600/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-500/70;
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 3px solid rgba(168, 85, 247, 0.1);
+  border-top: 3px solid #a855f7;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

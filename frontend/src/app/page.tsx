@@ -1,153 +1,242 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { useAccount, useReadContract } from 'wagmi';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
+import { CONTRACTS } from '@/lib/contracts';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen">
       <Navbar />
 
-      {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            Confidential NFT Marketplace
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            Experience private NFT auctions powered by{' '}
-            <span className="text-primary-600 font-semibold">Zama's FHEVM</span>.
-            Place encrypted bids, protect your privacy, and trade NFTs with confidence.
-          </p>
+      {/* Stats Bar */}
+      <StatsBar />
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
-            <Link href="/marketplace" className="btn-primary text-lg px-8 py-3">
-              Explore Auctions
-            </Link>
-            <Link
-              href="/mint"
-              className="bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 border-2 border-primary-600 hover:bg-primary-50 dark:hover:bg-gray-700 font-semibold py-3 px-8 rounded-lg transition-colors duration-200 text-lg"
-            >
-              Mint Your NFT
-            </Link>
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 bg-clip-text text-transparent mb-2">
+              Live Auctions
+            </h1>
+            <p className="text-slate-400">Explore confidential NFT auctions with encrypted bids</p>
           </div>
-
-          {/* Features */}
-          <div className="grid md:grid-cols-3 gap-8 mt-16">
-            <div className="card">
-              <div className="text-4xl mb-4">🔒</div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                Private Bidding
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                All bids are encrypted using FHEVM. Other bidders cannot see your bid amounts,
-                ensuring fair and private auctions.
-              </p>
-            </div>
-
-            <div className="card">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                Encrypted Operations
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Winner determination happens entirely on encrypted data. No plaintext exposure
-                until the auction ends.
-              </p>
-            </div>
-
-            <div className="card">
-              <div className="text-4xl mb-4">🎯</div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                Controlled Decryption
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Only the winning bid is decrypted through Zama's Gateway, using Access Control
-                Lists for security.
-              </p>
-            </div>
-          </div>
-
-          {/* How It Works */}
-          <div className="mt-20">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-10">
-              How It Works
-            </h2>
-            <div className="grid md:grid-cols-4 gap-6">
-              <div className="text-left">
-                <div className="bg-primary-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold mb-4">
-                  1
-                </div>
-                <h4 className="font-bold text-gray-900 dark:text-white mb-2">Mint NFT</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Create your unique NFT with metadata and artwork
-                </p>
-              </div>
-
-              <div className="text-left">
-                <div className="bg-primary-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold mb-4">
-                  2
-                </div>
-                <h4 className="font-bold text-gray-900 dark:text-white mb-2">Create Auction</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Set an encrypted reserve price and auction duration
-                </p>
-              </div>
-
-              <div className="text-left">
-                <div className="bg-primary-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold mb-4">
-                  3
-                </div>
-                <h4 className="font-bold text-gray-900 dark:text-white mb-2">
-                  Place Encrypted Bids
-                </h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Bidders submit encrypted bids that remain private
-                </p>
-              </div>
-
-              <div className="text-left">
-                <div className="bg-primary-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold mb-4">
-                  4
-                </div>
-                <h4 className="font-bold text-gray-900 dark:text-white mb-2">Winner Revealed</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  The highest bid is decrypted and the winner receives the NFT
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Tech Stack */}
-          <div className="mt-20 card max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Powered By
-            </h2>
-            <div className="flex flex-wrap justify-center gap-6 text-gray-600 dark:text-gray-400">
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold">Zama FHEVM</span>
-              </div>
-              <span>•</span>
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold">Solidity</span>
-              </div>
-              <span>•</span>
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold">Next.js</span>
-              </div>
-              <span>•</span>
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold">Wagmi</span>
-              </div>
-              <span>•</span>
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold">Viem</span>
-              </div>
-            </div>
-          </div>
+          <Link href="/create-auction" className="btn-primary">
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Create Auction
+          </Link>
         </div>
+
+        {/* Auctions Grid */}
+        <AuctionsGrid />
       </main>
     </div>
+  );
+}
+
+function StatsBar() {
+  const { data: auctionCounter } = useReadContract({
+    address: CONTRACTS.AUCTION.address,
+    abi: CONTRACTS.AUCTION.abi,
+    functionName: 'auctionCounter',
+  });
+
+  const stats = [
+    { label: 'Total Auctions', value: auctionCounter?.toString() || '0', icon: '🏛️' },
+    { label: 'Active Now', value: '0', icon: '⚡' },
+    { label: 'Total Volume', value: '0 ETH', icon: '💎' },
+    { label: 'Encrypted Bids', value: '0', icon: '🔐' },
+  ];
+
+  return (
+    <div className="border-b border-white/10 bg-slate-900/50 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {stats.map((stat, index) => (
+            <div key={index} className="glass-card p-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl">{stat.icon}</span>
+                <span className="text-2xl font-bold text-white">{stat.value}</span>
+              </div>
+              <p className="text-sm text-slate-400">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AuctionsGrid() {
+  const { isConnected } = useAccount();
+  const { data: auctionCounter } = useReadContract({
+    address: CONTRACTS.AUCTION.address,
+    abi: CONTRACTS.AUCTION.abi,
+    functionName: 'auctionCounter',
+  });
+
+  if (!isConnected) {
+    return (
+      <div className="glass-card p-12 text-center">
+        <div className="mb-6">
+          <svg className="w-20 h-20 mx-auto text-primary-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+        <h3 className="text-2xl font-bold text-white mb-2">Connect Your Wallet</h3>
+        <p className="text-slate-400 mb-6">
+          Connect your wallet to view and participate in confidential auctions
+        </p>
+      </div>
+    );
+  }
+
+  if (!auctionCounter || auctionCounter === 0n) {
+    return (
+      <div className="glass-card p-12 text-center">
+        <div className="mb-6">
+          <svg className="w-20 h-20 mx-auto text-accent-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <h3 className="text-2xl font-bold text-white mb-2">No Auctions Yet</h3>
+        <p className="text-slate-400 mb-6">
+          Be the first to create a confidential NFT auction!
+        </p>
+        <Link href="/create-auction" className="btn-primary inline-flex items-center">
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          Create First Auction
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {Array.from({ length: Number(auctionCounter) }).map((_, i) => (
+        <AuctionCard key={i} auctionId={i} />
+      ))}
+    </div>
+  );
+}
+
+function AuctionCard({ auctionId }: { auctionId: number }) {
+  const { data: auctionData } = useReadContract({
+    address: CONTRACTS.AUCTION.address,
+    abi: CONTRACTS.AUCTION.abi,
+    functionName: 'getAuction',
+    args: [BigInt(auctionId)],
+  });
+
+  if (!auctionData) {
+    return (
+      <div className="glass-card p-6 animate-pulse">
+        <div className="aspect-square rounded-xl bg-slate-800/50 mb-4"></div>
+        <div className="h-6 bg-slate-800/50 rounded mb-2"></div>
+        <div className="h-4 bg-slate-800/50 rounded w-2/3"></div>
+      </div>
+    );
+  }
+
+  const [seller, nftContract, tokenId, startTime, endTime, ended, cancelled, winner, winningBidAmount, totalBids] = auctionData;
+
+  const isActive = !ended && !cancelled && Date.now() / 1000 < Number(endTime);
+  const timeRemaining = (() => {
+    const now = Math.floor(Date.now() / 1000);
+    if (ended) return 'Ended';
+    if (now >= Number(endTime)) return 'Ended';
+
+    const remaining = Number(endTime) - now;
+    const hours = Math.floor(remaining / 3600);
+    const minutes = Math.floor((remaining % 3600) / 60);
+
+    if (hours > 24) {
+      return `${Math.floor(hours / 24)}d ${hours % 24}h`;
+    }
+    return `${hours}h ${minutes}m`;
+  })();
+
+  const gradients = ['nft-gradient', 'nft-gradient-alt', 'nft-gradient-fire', 'nft-gradient-ocean'];
+  const gradient = gradients[auctionId % gradients.length];
+
+  return (
+    <Link href={`/auction/${auctionId}`} className="group">
+      <div className="glass-card p-0 overflow-hidden group-hover:scale-[1.02] transition-transform duration-300">
+        {/* NFT Image */}
+        <div className={`aspect-square ${gradient} relative overflow-hidden`}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg className="w-32 h-32 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+
+          {/* Status Badge */}
+          <div className="absolute top-4 right-4">
+            {isActive ? (
+              <span className="badge badge-success">
+                <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse"></span>
+                Live
+              </span>
+            ) : (
+              <span className="badge bg-slate-800/80 text-slate-300 border-slate-700">
+                Ended
+              </span>
+            )}
+          </div>
+
+          {/* Encrypted Badge */}
+          <div className="absolute bottom-4 left-4">
+            <span className="badge badge-info">
+              <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              Encrypted
+            </span>
+          </div>
+        </div>
+
+        {/* Card Content */}
+        <div className="p-5 space-y-4">
+          {/* Title */}
+          <div>
+            <h3 className="text-xl font-bold text-white mb-1">
+              NFT #{tokenId.toString()}
+            </h3>
+            <p className="text-sm text-slate-400 font-mono">
+              {seller.slice(0, 6)}...{seller.slice(-4)}
+            </p>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-slate-900/50 rounded-lg p-3 border border-white/5">
+              <p className="text-xs text-slate-400 mb-1">Time Left</p>
+              <p className="font-semibold text-white">{timeRemaining}</p>
+            </div>
+            <div className="bg-slate-900/50 rounded-lg p-3 border border-white/5">
+              <p className="text-xs text-slate-400 mb-1">Bids</p>
+              <p className="font-semibold text-white">{totalBids.toString()} 🔐</p>
+            </div>
+          </div>
+
+          {/* Winner Info */}
+          {ended && winner !== '0x0000000000000000000000000000000000000000' && (
+            <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3">
+              <p className="text-xs text-emerald-400 mb-1">Winner</p>
+              <p className="text-sm font-mono text-white">
+                {winner.slice(0, 8)}...{winner.slice(-6)}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }
