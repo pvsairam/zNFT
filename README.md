@@ -2,6 +2,11 @@
 
 A privacy-preserving NFT marketplace built with **Zama's FHEVM (Fully Homomorphic Encryption for EVM)**. This platform enables confidential auctions where bids remain encrypted on-chain, ensuring complete privacy until the auction concludes.
 
+> **📌 Important Update**: This project was built as a comprehensive learning reference. For production use with the latest Zama infrastructure:
+> - See [OFFICIAL_SOURCES.md](OFFICIAL_SOURCES.md) for official Zama documentation and resources
+> - See [MIGRATION_TO_OFFICIAL_SDK.md](MIGRATION_TO_OFFICIAL_SDK.md) for upgrading to `@zama-fhe/relayer-sdk` and `@fhevm/solidity`
+> - Current implementation uses older patterns for educational clarity
+
 ## 🎯 Features
 
 - **Private Bidding**: All bids are encrypted using FHEVM's euint64 type
